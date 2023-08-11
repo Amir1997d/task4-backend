@@ -1,5 +1,4 @@
 const date = require('date-and-time');
-const now  =  new Date();
 const { Pool } = require('pg');
 
 //PostgreSQL database configuration
@@ -21,18 +20,19 @@ pool.connect()
 
 //Helper function to create the user table in the database
 async function createTable() {
-    await pool.query(`CREATE TABLE users (
-                          user_id SERIAL PRIMARY KEY,
-                          username VARCHAR(255) NOT NULL,
-                          email VARCHAR(255) NOT NULL,
-                          user_password VARCHAR(255) NOT NULL,
-                          last_login_time VARCHAR(255) NOT NULL,
-                          register_time VARCHAR(255) NOT NULL,
-                          user_status VARCHAR(10) DEFAULT 'active',
-                          CONSTRAINT unique_username UNIQUE (username),
-                          CONSTRAINT unique_email UNIQUE (email)
-                        );`
-    );
+    const query = `CREATE TABLE users (
+                      user_id SERIAL PRIMARY KEY,
+                      username VARCHAR(255) NOT NULL,
+                      email VARCHAR(255) NOT NULL,
+                      user_password VARCHAR(255) NOT NULL,
+                      last_login_time VARCHAR(255) NOT NULL,
+                      register_time VARCHAR(255) NOT NULL,
+                      user_status VARCHAR(10) DEFAULT 'active',
+                      CONSTRAINT unique_username UNIQUE (username),
+                      CONSTRAINT unique_email UNIQUE (email)
+                    );`;
+
+    await pool.query(query);
 }
 
 // Helper function to update user status in the database
@@ -65,15 +65,19 @@ async function getUserByUsernameOrEmail(username, email) {
 
 // Helper function to create a new user in the database
 async function createUser(username, email, password) {
-    let registerTime = date.format(now, 'YYYY-MM-DD HH:mm');
-    let lastLoginTime = registerTime;
-    let userStatus = 'active';
+    // Get the current time in local timezone
+    const now = new Date();
+    // Format the time in 'YYYY-MM-DD HH:mm' format
+    const registerTime = date.format(now, 'YYYY-MM-DD HH:mm', true);
+    const lastLoginTime = registerTime;
+    const userStatus = 'active';
     await pool.query('INSERT INTO users (username, email, user_password, last_login_time, register_time, user_status) VALUES ($1, $2, $3, $4, $5, $6)', [username, email, password, lastLoginTime, registerTime, userStatus]);
 }
 
 // Helper function to update last login time in the database
 async function updateLastLogin(userId) {
-    let lastLoginTime = date.format(now, 'YYYY-MM-DD HH:mm');
+    const now = new Date();
+    const lastLoginTime = date.format(now, 'YYYY-MM-DD HH:mm', true);
     await pool.query('UPDATE users SET last_login_time = $1 WHERE user_id = $2', [lastLoginTime, userId]);
 }
 
