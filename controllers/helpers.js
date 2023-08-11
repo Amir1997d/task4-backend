@@ -71,4 +71,5 @@ module.exports = {
     createUser,
     updateLastLogin,
     getAllUsers,
+    createTable
 };
