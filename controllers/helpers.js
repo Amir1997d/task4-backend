@@ -54,7 +54,7 @@ async function getUserByUsernameOrEmail(username, email) {
 
 // Helper function to create a new user in the database
 async function createUser(username, email, password) {
-    let registerTime = date.format(now,'DD/MM/YYYY HH:mm');
+    let registerTime = date.format(now, 'YYYY-MM-DD HH:mm:ss');
     let lastLoginTime = registerTime;
     let userStatus = 'active';
     await pool.query('INSERT INTO users (username, email, user_password, last_login_time, register_time, user_status) VALUES ($1, $2, $3, $4, $5, $6)', [username, email, password, lastLoginTime, registerTime, userStatus]);
@@ -62,7 +62,7 @@ async function createUser(username, email, password) {
 
 // Helper function to update last login time in the database
 async function updateLastLogin(userId) {
-    let lastLoginTime = date.format(now,'DD/MM/YYYY HH:mm');
+    let registerTime = date.format(now, 'YYYY-MM-DD HH:mm:ss');
     await pool.query('UPDATE users SET last_login_time = $1 WHERE user_id = $2', [lastLoginTime, userId]);
 }
 
