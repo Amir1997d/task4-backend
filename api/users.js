@@ -10,6 +10,17 @@ const {
   getUser
 } = require('../controllers/usersController');
 
+const { createTable } = require('../controllers/helpers');
+
+root.get('/create-user-table', (req, res) => {
+  try {
+    await createTable();
+    res.status(200).send("table is created!");
+  } catch(err) {
+    res.send(err);
+  }
+}
+  
 router.get('/', getUsers);
 router.delete('/:userId', deleteUser);
 router.get('/:username', getUser);
