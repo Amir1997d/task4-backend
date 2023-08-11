@@ -19,7 +19,7 @@ root.get('/create-user-table', async (req, res) => {
   } catch(err) {
     res.send(err);
   }
-}
+});
   
 router.get('/', getUsers);
 router.delete('/:userId', deleteUser);
