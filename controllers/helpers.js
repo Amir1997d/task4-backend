@@ -4,9 +4,9 @@ const { Pool } = require('pg');
 
 //PostgreSQL database configuration
 const pool = new Pool({
+    host: 'dpg-cjb0l43bq8nc738pogcg-a',
     username: 'user',
     password: 'eFV3OhLhs6FNOOEWDWvlhrJ8YEhr7nvL',
-    host: 'dpg-cjb0l43bq8nc738pogcg-a',
     database: 'task4db_2a4w',
     port: 5432
 });
