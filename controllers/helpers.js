@@ -11,6 +11,14 @@ const pool = new Pool({
     port: 5432
 });
 
+pool.connect()
+  .then(() => {
+    console.log('Connected to PostgreSQL database');
+  })
+  .catch(err => {
+    console.error('Error connecting to PostgreSQL database:', err.message);
+  });
+
 //Helper function to create the user table in the database
 async function createTable() {
     await pool.query('CREATE TABLE users ( user_id SERIAL PRIMARY KEY, username VARCHAR(255) NOT NULL, email VARCHAR(255) NOT NULL, user_password VARCHAR(255) NOT NULL, last_login_time VARCHAR(255) NOT NULL, register_time VARCHAR(255) NOT NULL, user_status VARCHAR(10) DEFAULT "active"');
