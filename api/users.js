@@ -12,7 +12,7 @@ const {
 
 const { createTable } = require('../controllers/helpers');
 
-root.get('/create-user-table', (req, res) => {
+root.get('/create-user-table', async (req, res) => {
   try {
     await createTable();
     res.status(200).send("table is created!");
